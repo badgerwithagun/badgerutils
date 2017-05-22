@@ -47,7 +47,7 @@ public class TestHandoff {
   private static final String DB_CONNECTION = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MVCC=TRUE";
   private static final String DB_USER = "";
   private static final String DB_PASSWORD = "";
-  private static final int RECORD_COUNT = 10000;
+  private static final int RECORD_COUNT = 1000;
   private static final int THREAD_COUNT = 4;
 
   @Test
@@ -66,7 +66,7 @@ public class TestHandoff {
       executor.execute(LogExceptions.wrap(CheckedExceptions.uncheck(() -> { 
         try (Connection c = getDBConnection();
              Stream<Record> stream = DSL.using(c).fetchStream("SELECT id, str FROM Source");
-             Handoff<TargetBean> handoff = Handoff.to(() -> Batcher.batch(TestHandoff::flush1)).on(workQueue)) {
+             Handoff<TargetBean> handoff = Handoff.to(() -> Batcher.batch(TestHandoff::flush1)).withBufferSize(10).on(workQueue)) {
           stream
             .map(TargetBean::new)
             .forEach(handoff);
