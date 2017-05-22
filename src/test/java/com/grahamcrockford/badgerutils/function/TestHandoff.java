@@ -66,7 +66,7 @@ public class TestHandoff {
       executor.execute(LogExceptions.wrap(CheckedExceptions.uncheck(() -> { 
         try (Connection c = getDBConnection();
              Stream<Record> stream = DSL.using(c).fetchStream("SELECT id, str FROM Source");
-             Handoff<TargetBean> handoff = Handoff.to(() -> Batcher.batch(TestHandoff::flush1)).withBufferSize(10).on(workQueue)) {
+             Handoff<TargetBean> handoff = Handoff.to(() -> Batcher.batch(10, TestHandoff::flush1)).withBufferSize(100).on(workQueue)) {
           stream
             .map(TargetBean::new)
             .forEach(handoff);
