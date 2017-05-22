@@ -48,6 +48,10 @@ import uk.org.lidalia.slf4jtest.TestLoggerFactory;
  * Full-stack test which demonstrates data being read from a database table by
  * a single SELECT and then multicast to two other tables in multiple threads.
  * This is a common ETL pattern to maximise data throughput.
+ * 
+ * <p>This test won't persist in its present form.  It's just providing me with
+ * a working framework to play with ideas.  This use-case is a bit of a proving
+ * ground for pretty much everything in this project so far.</p>
  */
 public class TestHandoff {
   

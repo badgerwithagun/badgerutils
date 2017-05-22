@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2017 Graham Crockford
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.grahamcrockford.badgerutils.async;
 
 import java.util.Optional;
@@ -6,6 +22,8 @@ import java.util.Optional;
  * Single point of registry for threads which wand to parallelise work but
  * which are operating within a fixed thread pool and therefore can't safely
  * submit new work themselves without risking thread starvation.
+ * 
+ * <p>Really not sure this is right yet...</p>
  * 
  * @author grahamc (Graham Crockford)
  */
