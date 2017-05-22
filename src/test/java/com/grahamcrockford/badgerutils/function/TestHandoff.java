@@ -35,6 +35,8 @@ import uk.org.lidalia.slf4jtest.TestLoggerFactory;
  */
 public class TestHandoff {
   
+
+
   static {
     TestLoggerFactory.getInstance().setPrintLevel(Level.INFO);
   }
@@ -46,6 +48,7 @@ public class TestHandoff {
   private static final String DB_USER = "";
   private static final String DB_PASSWORD = "";
   private static final int RECORD_COUNT = 10000;
+  private static final int THREAD_COUNT = 4;
 
   @Test
   public void testDelegatingETL() throws SQLException, InterruptedException {
@@ -58,7 +61,7 @@ public class TestHandoff {
 
     // When we run the pipeline
     WorkQueue workQueue = new StaticWorkQueue();
-    ExecutorService executor = Executors.newFixedThreadPool(17);
+    ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
     try {
       executor.execute(LogExceptions.wrap(CheckedExceptions.uncheck(() -> { 
         try (Connection c = getDBConnection();
@@ -70,7 +73,7 @@ public class TestHandoff {
         }
       })));
       CheckedExceptions.runUnchecked(() -> Thread.sleep(100));
-      IntStream.range(1, 15).forEach((i) -> executor.submit(LogExceptions.wrap(new Assister(workQueue))));
+      IntStream.range(1, THREAD_COUNT).forEach((i) -> executor.submit(LogExceptions.wrap(new Assister(workQueue))));
     } finally {
       executor.shutdown();
       executor.awaitTermination(2, TimeUnit.MINUTES);
