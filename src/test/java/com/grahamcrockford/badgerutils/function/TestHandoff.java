@@ -1,4 +1,4 @@
-package com.grahamcrockford.bagerutils.function;
+package com.grahamcrockford.badgerutils.function;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,8 +24,6 @@ import com.grahamcrockford.badgerutils.async.StaticWorkQueue;
 import com.grahamcrockford.badgerutils.async.WorkQueue;
 import com.grahamcrockford.badgerutils.base.CheckedExceptions;
 import com.grahamcrockford.badgerutils.base.LogExceptions;
-import com.grahamcrockford.badgerutils.function.Batcher;
-import com.grahamcrockford.badgerutils.function.Handoff;
 
 import uk.org.lidalia.slf4jext.Level;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;

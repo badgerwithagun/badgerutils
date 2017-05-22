@@ -1,4 +1,4 @@
-package com.grahamcrockford.bagerutils.function;
+package com.grahamcrockford.badgerutils.function;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.google.common.collect.ImmutableList;
-import com.grahamcrockford.badgerutils.function.Batcher;
 
 /**
  * Tests for {@link Batcher}.
