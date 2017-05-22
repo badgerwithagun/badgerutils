@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.grahamcrockford.badgerutils.fn;
+package com.grahamcrockford.badgerutils.base;
 
-import com.grahamcrockford.badgerutils.fn.CheckedExceptions.ThrowingRunnable;
+import com.grahamcrockford.badgerutils.base.CheckedExceptions.ThrowingRunnable;
 
 /**
  * Useful methods for dealing with instances of {@link AutoCloseable}.

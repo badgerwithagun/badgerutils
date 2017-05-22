@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.grahamcrockford.badgerutils.fn;
+package com.grahamcrockford.badgerutils.base;
 
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
