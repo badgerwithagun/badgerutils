@@ -16,26 +16,32 @@
 
 package com.grahamcrockford.badgerutils.base;
 
-import com.grahamcrockford.badgerutils.base.CheckedExceptions.ThrowingRunnable;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 /**
- * Useful methods for dealing with instances of {@link AutoCloseable}.
+ * Tests for {@link AutoCloseables}.
  * 
  * @author grahamc (Graham Crockford)
  */
-public final class AutoCloseables {
+public class TestAutoCloseables {
   
-  /**
-   * Closes an object <em>if</em> if is {@link AutoCloseable} and
-   * <em>if</em> it is not null, converting any checked exceptions
-   * into unchecked exceptions using {@link CheckedExceptions#runUnchecked(ThrowingRunnable)}.
-   * 
-   * @param o The object to close, if required.
-   */
-  public static <T> void safeClose(Object o) {
-    if (o == null) return;
-    if (AutoCloseable.class.isInstance(o)) {
-      CheckedExceptions.runUnchecked(((AutoCloseable) o)::close);
-    }
+  @Test
+  public void testNull() {
+    AutoCloseables.safeClose(null);
+  }
+  
+  @Test
+  public void testNotAutoCloseable() {
+    AutoCloseables.safeClose("A thing");
+  }
+  
+  @Test
+  public void testAutoCloseable() throws Exception {
+    AutoCloseable mock = mock(AutoCloseable.class);
+    AutoCloseables.safeClose(mock);
+    verify(mock).close();
   }
 }

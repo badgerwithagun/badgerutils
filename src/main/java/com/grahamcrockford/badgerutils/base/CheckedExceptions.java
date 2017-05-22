@@ -16,6 +16,7 @@
 
 package com.grahamcrockford.badgerutils.base;
 
+import java.io.Serializable;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
@@ -104,9 +105,30 @@ public class CheckedExceptions {
       throw new RuntimeException(t);
     }
   }
+  
+  /**
+   * Equivalent of {@link #runUnchecked(ThrowingRunnable)}, but runs
+   * a {@link Supplier}, returning the value returned.  See
+   * {@link #runUnchecked(ThrowingRunnable)} for full information.
+   * 
+   * @param callable The code to run, which may throw checked exceptions.
+   * @return The value returned by <code>callable</code>.
+   * @throws A {@link RuntimeException} wrapping any checked exceptions thrown.
+   */
+  public static <T> T getUnchecked(Callable<T> callable) {
+    try {
+      return callable.call();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
+    } catch (Throwable t) {
+      Throwables.throwIfUnchecked(t);
+      throw new RuntimeException(t);
+    }
+  }
 
   /**
-   * Wraps a checked exception-throwing lambda in another {@link Runnable} which
+   * Wraps a checked exception-throwing lambda in another lambda which
    * uses {@link #runUnchecked(ThrowingRunnable)} to convert checked exceptions
    * to unchecked exceptions.  Can be useful when trying to write lambdas
    * but where the enclosed code throws checked exceptions and the consumer
@@ -120,12 +142,17 @@ public class CheckedExceptions {
    *    ...
    *  }
    *}));</code></pre>
+   *
+   * <p>Note that the lambda is cast at construction time to {@link Serializable}
+   * so may be serialised, assuming that you have provided serialisability on
+   * any enclosed objects. TODO REALLY NEED TO DOUBLE CHECK THIS. NOT
+   * CONVINCED IN THE SLIGHTEST.  NEEDS TESTS</p>.
    * 
    * @param runnable The lambda to wrap.
    * @return The now non-throwing {@link Runnable}.
    */
   public static Runnable uncheck(ThrowingRunnable runnable) {
-    return () -> runUnchecked(runnable);
+    return (Runnable & Serializable)() -> runUnchecked(runnable);
   }
 
   /**
@@ -134,11 +161,16 @@ public class CheckedExceptions {
    * 
    * <p>The {@link Callable} is effectively converted into a {@link Supplier}.</p>
    * 
+   * <p>Note that the lambda is cast at construction time to {@link Serializable}
+   * so may be serialised, assuming that you have provided serialisability on
+   * any enclosed objects.  TODO REALLY NEED TO DOUBLE CHECK THIS. NOT
+   * CONVINCED IN THE SLIGHTEST.  NEEDS TESTS</p>.
+   * 
    * @param callable The lambda to wrap.
    * @returnT he now non-throwing {@link Supplier}.
    */
   public static <T> Supplier<T> uncheck(Callable<T> callable) {
-    return () -> callUnchecked(callable);
+    return (Supplier<T> & Serializable)() -> callUnchecked(callable);
   }
 
   /**
