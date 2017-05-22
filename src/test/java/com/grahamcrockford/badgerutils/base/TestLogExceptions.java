@@ -28,10 +28,15 @@ import org.mockito.Mockito;
 
 import com.grahamcrockford.badgerutils.base.LogExceptions.InterruptibleRunnable;
 
+import uk.org.lidalia.slf4jext.Level;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 public class TestLogExceptions {
+ 
+  static {
+    TestLoggerFactory.getInstance().setPrintLevel(Level.INFO);
+  }
 
   private TestLogger logger = TestLoggerFactory.getTestLogger(LogExceptions.class);
 
